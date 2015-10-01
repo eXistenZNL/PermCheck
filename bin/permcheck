@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+
+namespace Enrise\PermCheck;
+
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+require_once(__DIR__ . '/../vendor/autoload.php');
+
+$input = new ArgvInput();
+$output = new ConsoleOutput();
+
+$params = [
+    'config' => $input->getParameterOption(array('--config', '-c')),
+    'directory' => $input->getParameterOption(array('--directory', '-d'), getcwd()),
+    'exitStatus' => $input->hasParameterOption(array('--exitstatus', '-e')),
+    'report' => $input->getParameterOption(array('--report', '-r')),
+];
+
+$permCheck = new PermCheck();
+$permCheck->setParams($params);
+
+try {
+    $errors = $permCheck->run();
+} catch (\Exception $e) {
+    $output->writeln('<red>' . $e->getMessage() . '</red>');
+    exit (1);
+}
+
+$exitStatus = 0;
+if ($params['exitStatus'] === true) {
+    $exitStatus = 1;
+}
+
+if (count($errors) > 0) {
+    foreach ($errors as $error) {
+        $output->writeln('<red>' . $error . '</red>');
+    }
+    exit($exitStatus);
+}
+
+$output->writeln('<green>All done!</green>');
+exit(0);

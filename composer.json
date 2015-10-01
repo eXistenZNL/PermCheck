@@ -1,0 +1,22 @@
+{
+    "name": "enrise/permcheck",
+    "description": "PermCheck is a tool to validate the executable bit of project files",
+    "license": "MIT",
+    "require": {
+        "symfony/console": "2.*"
+    },
+    "authors": [
+        {
+            "name": "Stefan van Essen",
+            "email": "git@stefan-van-essen.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Enrise\\PermCheck\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/permcheck"
+    ]
+}
