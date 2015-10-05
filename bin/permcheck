@@ -6,7 +6,7 @@ namespace Enrise\PermCheck;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once(__DIR__ . '/../../../autoload.php');
 
 $input = new ArgvInput();
 $output = new ConsoleOutput();
@@ -14,7 +14,6 @@ $output = new ConsoleOutput();
 $params = [
     'config' => $input->getParameterOption(array('--config', '-c')),
     'directory' => $input->getParameterOption(array('--directory', '-d'), getcwd()),
-    'exitStatus' => $input->hasParameterOption(array('--exitstatus', '-e')),
     'report' => $input->getParameterOption(array('--report', '-r')),
 ];
 
@@ -24,21 +23,28 @@ $permCheck->setParams($params);
 try {
     $errors = $permCheck->run();
 } catch (\Exception $e) {
-    $output->writeln('<red>' . $e->getMessage() . '</red>');
+    $output->writeln('<fg=red>' . $e->getMessage() . '</>');
     exit (1);
 }
 
-$exitStatus = 0;
-if ($params['exitStatus'] === true) {
-    $exitStatus = 1;
-}
+if (count($errors['minx']) > 0 || count($errors['plusx']) > 0) {
+    $output->writeln('<fg=yellow>Done, but with errors:</>');
 
-if (count($errors) > 0) {
-    foreach ($errors as $error) {
-        $output->writeln('<red>' . $error . '</red>');
+    if (count($errors['minx']) > 0) {
+        $output->writeln(PHP_EOL . '  <fg=yellow>Files that should NOT be executeble but are:</>');
+        foreach ($errors['minx'] as $file) {
+            $output->writeln('    <fg=yellow>' . $file . '</>');
+        }
     }
-    exit($exitStatus);
+    if (count($errors['plusx']) > 0) {
+        $output->writeln(PHP_EOL . '  <fg=yellow>Files that should be executeble but are NOT:</>');
+        foreach ($errors['plusx'] as $file) {
+            $output->writeln('    <fg=yellow>' . $file . '</>');
+        }
+    }
+    exit(1);
 }
 
-$output->writeln('<green>All done!</green>');
+$output->writeln('<fg=green>All done!</>');
 exit(0);
+

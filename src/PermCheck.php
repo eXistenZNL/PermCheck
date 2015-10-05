@@ -20,22 +20,20 @@ class PermCheck
         $this->config = $this->loadConfig($this->params['config']);
         $files = $this->getFileList();
 
-        $errors = [];
+        $errors = [
+            'minx' => [],
+            'plusx' => [],
+        ];
 
         while($files->valid()) {
             /* @var \SplFileInfo $file */
             $file = $files->current();
 
-            if ($file->isExecutable() && in_array($file->getPathname(), $this->config['executables'])) {
-                $files->next();
-                continue;
+            if (!$file->isExecutable() && in_array($file->getPathname(), $this->config['executables'])) {
+                $errors['plusx'][] = $file->getPathname();
+            } elseif ($file->isExecutable() && !in_array($file->getPathname(), $this->config['executables'])) {
+                $errors['minx'][] = $file->getPathname();
             }
-            if (!$file->isExecutable() && !in_array($file->getPathname(), $this->config['executables'])) {
-                $files->next();
-                continue;
-            }
-
-            $errors[] = $file->getPathname();
             $files->next();
         }
 
@@ -76,7 +74,12 @@ class PermCheck
      */
     protected function getFileList()
     {
-        $files = new \AppendIterator();
+        if(count($this->config['directories']) === 0) {
+            $files = new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS);
+            $files = new \RecursiveIteratorIterator($files);
+            return $files;
+        }
+
         foreach($this->config['directories'] as $dir) {
             try {
                 $dir = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS);

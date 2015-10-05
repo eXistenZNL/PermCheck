@@ -55,7 +55,6 @@ The following options and flags are available:
 | ------------ |-----------| --------- | ----------------------------------------------------------------------------- |
 | --config     | -c        | Yes       | The location of the configuration XML.                                        |
 | --directory  | -d        | No        | De location of the base directory, defaults to the current working directory. |
-| --exitstatus | -e        | No        | If specified, PermCheck will exit with status 1 if the check fails.           |
 | --report     | -r        | No        | If specified, a status XML will be written to this location.                  |
 | --verbose    | -v        | No        | If specified, the errors will be printed to the console.                      |
 
