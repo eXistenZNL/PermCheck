@@ -7,6 +7,11 @@ use eXistenZNL\PermCheck\Config\Loader\LoaderInterface as ConfigLoaderInterface;
 use eXistenZNL\PermCheck\Message\BagInterface as MessageBagInterface;
 use eXistenZNL\PermCheck\Reporter\Xml;
 
+/**
+ * The main PermCheck controller class
+ *
+ * @package eXistenZNL\PermCheck
+ */
 class PermCheck
 {
     /**

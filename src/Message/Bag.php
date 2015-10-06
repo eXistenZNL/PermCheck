@@ -9,6 +9,9 @@ namespace eXistenZNL\PermCheck\Message;
  */
 class Bag extends AbstractBag
 {
+    /**
+     * @var array
+     */
     protected $messages;
 
     /**
@@ -32,6 +35,11 @@ class Bag extends AbstractBag
         $this->messages[$type][] = $message;
     }
 
+    /**
+     * Get the messages from this bag
+     *
+     * @return array
+     */
     public function getMessages()
     {
         return $this->messages;
