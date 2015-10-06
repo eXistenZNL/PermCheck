@@ -4,9 +4,7 @@
     "license": "MIT",
     "require": {
         "symfony/console": "^2.7",
-        "symfony/dependency-injection": "^2.7",
-        "pimple/pimple": "^3.0",
-        "mikey179/vfsStream": "^1.6"
+        "pimple/pimple": "^3.0"
     },
     "authors": [
         {
@@ -21,7 +19,5 @@
     },
     "bin": [
         "bin/permcheck"
-    ],
-    "require-dev": {
-    }
+    ]
 }
