@@ -1,27 +1,71 @@
 #!/usr/bin/env php
 <?php
 
-namespace Enrise\PermCheck;
+namespace eXistenZNL\PermCheck;
 
+use eXistenZNL\PermCheck\Config\Bag\Config;
+use eXistenZNL\PermCheck\Config\Loader\Xml;
+use Pimple\Container;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Filesystem\Filesystem;
 
-require_once(__DIR__ . '/../../../autoload.php');
+require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 $input = new ArgvInput();
 $output = new ConsoleOutput();
 
-$params = [
-    'config' => $input->getParameterOption(array('--config', '-c')),
-    'directory' => $input->getParameterOption(array('--directory', '-d'), getcwd()),
-    'report' => $input->getParameterOption(array('--report', '-r')),
-];
-
-$permCheck = new PermCheck();
-$permCheck->setParams($params);
+$configFile = $input->getParameterOption(array('--config', '-c'));
+$directory = $input->getParameterOption(array('--directory', '-d'), getcwd());
+$reportFile = $input->getParameterOption(array('--report', '-r'));
 
 try {
-    $errors = $permCheck->run();
+    if ($configFile === false) {
+        throw new \InvalidArgumentException('Missing argument --config (-c)');
+    }
+    if (!is_file($configFile)) {
+        throw new \RuntimeException('Configuration file does not exist');
+    }
+} catch (\Exception $e) {
+    $output->writeln('<fg=red>' . $e->getMessage() . '</>');
+    exit (1);
+}
+
+// Assemble the DI
+$container = new Container();
+$container['configFile'] = $configFile;
+$container['directory'] = $directory;
+$container['reportFile'] = $reportFile;
+
+$container['filesystem'] = function ($c) {
+    $filesystem = new Filesystem();
+    $filesystem->setDirectory($c['directory']);
+    return $filesystem;
+};
+$container['loader'] = function ($c) {
+    $loader = new Xml();
+    $loader->setConfigFile($c['configFile']);
+    $loader->setMessageBag($c['messageBag']);
+    $loader->setFilesystem($c['filesystem']);
+    return $loader;
+};
+$container['messageBag'] = function () {
+    return new Config();
+};
+$container['permCheck'] = function ($c) {
+    $permCheck = new PermCheck();
+    $permCheck->setReportfile($c['reportFile']);
+};
+$container['reporter'] = function ($c) {
+    $reporter = new Reporter();
+    $reporter->setReportFile($c['reportFile']);
+    return $reporter;
+};
+
+try {
+    $permCheck = $container['permCheck'];
+    $permCheck->run();
+    $errors = $permCheck->getErrors();
 } catch (\Exception $e) {
     $output->writeln('<fg=red>' . $e->getMessage() . '</>');
     exit (1);
@@ -47,4 +91,3 @@ if (count($errors['minx']) > 0 || count($errors['plusx']) > 0) {
 
 $output->writeln('<fg=green>All done!</>');
 exit(0);
-

@@ -1,10 +1,12 @@
 {
-    "name": "enrise/permcheck",
+    "name": "existenznl/permcheck",
     "description": "PermCheck is a tool to validate the executable bit of project files",
     "license": "MIT",
     "require": {
         "symfony/console": "^2.7",
-        "symfony/dependency-injection": "^2.7"
+        "symfony/dependency-injection": "^2.7",
+        "pimple/pimple": "^3.0",
+        "mikey179/vfsStream": "^1.6"
     },
     "authors": [
         {
@@ -14,10 +16,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Enrise\\PermCheck\\": "src/"
+            "eXistenZNL\\PermCheck\\": "src/"
         }
     },
     "bin": [
         "bin/permcheck"
-    ]
+    ],
+    "require-dev": {
+    }
 }

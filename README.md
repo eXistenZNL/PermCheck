@@ -10,7 +10,7 @@ PermCheck can be added as a composer package by adding it to your composer.json:
 
     {
         "require-dev": {
-            "enrise/permcheck": "1.0.*"
+            "existenznl/permcheck": "^1.0"
         }
     }
 

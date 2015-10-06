@@ -1,110 +1,83 @@
 <?php
 
-namespace Enrise\PermCheck;
+namespace eXistenZNL\PermCheck;
+
+use eXistenZNL\PermCheck\Config\ConfigInterface;
+use eXistenZNL\PermCheck\Config\Loader\LoaderInterface as ConfigLoaderInterface;
+use eXistenZNL\PermCheck\Message\BagInterface as MessageBagInterface;
+use eXistenZNL\PermCheck\Reporter\Xml;
 
 class PermCheck
 {
+    /**
+     * @var ConfigLoaderInterface
+     */
+    protected $loader;
+
     /**
      * @var array
      */
     protected $params;
 
     /**
-     * @var array
+     * @var ConfigInterface
      */
     protected $config;
 
+    /**
+     * @var
+     */
+    protected $filesystem;
+
+    /**
+     * @var MessageBagInterface;
+     */
+    protected $messageBag;
+
+    /**
+     * @var Xml;
+     */
+    protected $reporter;
+
+    /**
+     * Run the permission check and return any errors
+     *
+     * @return array
+     */
     public function run()
     {
-        $this->validate();
-        $this->config = $this->loadConfig($this->params['config']);
-        $files = $this->getFileList();
+        $this->config->load();
 
-        $errors = [
-            'minx' => [],
-            'plusx' => [],
-        ];
-
-        while($files->valid()) {
-            /* @var \SplFileInfo $file */
-            $file = $files->current();
-
-            if (!$file->isExecutable() && in_array($file->getPathname(), $this->config['executables'])) {
-                $errors['plusx'][] = $file->getPathname();
-            } elseif ($file->isExecutable() && !in_array($file->getPathname(), $this->config['executables'])) {
-                $errors['minx'][] = $file->getPathname();
-            }
-            $files->next();
-        }
-
-        return $errors;
+        // Do something
     }
 
     /**
-     * @param array $params
-     */
-    public function setParams($params)
-    {
-        $this->params = $params;
-    }
-
-    /**
-     * Perform the various checks needed before we can start examining the code
+     * Get the messageBag that contains the error messages
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @return
      */
-    protected function validate()
+    public function getMessageBag()
     {
-        if (!isset($this->params['directory']) || $this->params['directory'] === false) {
-            throw new \InvalidArgumentException('Missing argument --directory (-d)');
-        }
-        if (!isset($this->params['config']) || $this->params['config'] === false) {
-            throw new \InvalidArgumentException('Missing argument --config (-c)');
-        }
-        if (!is_file($this->params['config'])) {
-            throw new \RuntimeException('Configuration file does not exist');
-        }
+        return $this->messageBag;
+    }
+
+    /**
+     * Set the path of the reportFile to write the XML report to
+     *
+     * @param string $reportFile The file to write the report to
+     */
+    public function setReportFile($reportFile)
+    {
+        $this->reportFile = $reportFile;
     }
 
     /**
      * Get a list of files that we can loop trough
      *
+     * @throws \RuntimeException
      * @return \Iterator
      */
     protected function getFileList()
     {
-        if(count($this->config['directories']) === 0) {
-            $files = new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS);
-            $files = new \RecursiveIteratorIterator($files);
-            return $files;
-        }
-
-        foreach($this->config['directories'] as $dir) {
-            try {
-                $dir = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS);
-                $dir = new \RecursiveIteratorIterator($dir);
-                $files->append($dir);
-            } catch (\UnexpectedValueException $e) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'The directory %s could not be found, check your config!',
-                        $dir
-                    )
-                );
-            }
-        }
-        return $files;
-    }
-
-    protected function loadConfig($config)
-    {
-        $xml = simplexml_load_file($config);
-
-        $config = [
-            'directories' => (array) $xml->directories->children()->dir,
-            'executables' => (array) $xml->executables->children()->file,
-        ];
-        return $config;
     }
 }
