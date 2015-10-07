@@ -17,6 +17,11 @@ abstract class AbstractLoader implements LoaderInterface
     protected $config;
 
     /**
+     * @var mixed
+     */
+    protected $data;
+
+    /**
      * Set the config object that needs filling.
      *
      * @param ConfigInterface $config The config that needs filling
@@ -24,5 +29,15 @@ abstract class AbstractLoader implements LoaderInterface
     public function setConfig(ConfigInterface $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Set the data that should be parsed
+     *
+     * @param mixed $data The data that should be parsed
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 }

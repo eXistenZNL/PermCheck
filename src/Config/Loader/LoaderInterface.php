@@ -19,9 +19,16 @@ interface LoaderInterface
     public function setConfig(ConfigInterface $config);
 
     /**
+     * Set the data that should be parsed
+     *
+     * @param mixed $data The data that should be parsed
+     */
+    public function setData($data);
+
+    /**
      * Load the configuration, store it in the config bag, and return it.
      *
      * @return ConfigInterface;
      */
-    public function load();
+    public function parse();
 }

@@ -12,34 +12,40 @@ use eXistenZNL\PermCheck\Config\ConfigInterface;
 class Xml extends AbstractLoader
 {
     /**
-     * @var string
-     */
-    protected $configFile;
-
-    /**
-     * @param string $configFile
-     */
-    public function setConfigFile($configFile)
-    {
-        $this->configFile = $configFile;
-    }
-
-    /**
      * Load the configuration and return it in an easy to use config bag.
      *
      * @return ConfigInterface
      *
      * @throws \RuntimeException
      */
-    public function load()
+    public function parse()
     {
-        if (!file_exists($this->configFile)) {
-            throw new \RuntimeException(
-                sprintf(
-                    'Configuration file %s does not exist',
-                    $this->configFile
-                )
-            );
+        if (!is_string($this->data)) {
+            throw new \RuntimeException('The given data is no valid string');
         }
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($this->data);
+        if ($xml === false) {
+            throw new \RuntimeException('Error during the loading of the XML file');
+        }
+        if (!isset($xml->executables) || !isset($xml->excludes)) {
+            throw new \RuntimeException('Missing configuration elements');
+        }
+
+        $data = array(
+            'excludes' => array(),
+            'executables' => array(),
+        );
+
+        foreach ($xml->excludes->children()->file as $element) {
+            $data['excludes'][] = (string) $element;
+        }
+
+        foreach ($xml->executables->children() as $element) {
+            $data['executables'][] = (string) $element;
+        }
+
+        return $data;
+
     }
 }
