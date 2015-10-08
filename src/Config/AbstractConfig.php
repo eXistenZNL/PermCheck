@@ -3,69 +3,64 @@
 namespace eXistenZNL\PermCheck\Config;
 
 /**
- * Class AbstractConfig
+ * The abstract class for the config
  *
  * @package eXistenZNL\PermCheck\Config
  */
 abstract class AbstractConfig implements ConfigInterface
 {
     /**
-     * The parsed config values
-     *
-     * @var $values;
+     * @var \ArrayIterator
      */
-    protected $values;
+    protected $excludedFiles;
 
     /**
-     * Whether a offset exists
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     *
-     * @param mixed $offset An offset to check for.
-     *
-     * @return boolean
+     * @var \ArrayIterator
      */
-    public function offsetExists($offset)
+    protected $excludedDirs;
+
+    /**
+     * @var \ArrayIterator
+     */
+    protected $executableFiles;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        return array_key_exists($offset, $this->values);
+        $this->excludedFiles = new \ArrayIterator();
+        $this->excludedDirs = new \ArrayIterator();
+        $this->executableFiles = new \ArrayIterator();
     }
 
     /**
-     * Offset to retrieve
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     * Add a file that's excluded from checking
      *
-     * @param mixed $offset The offset to retrieve.
-     *
-     * @return mixed Can return all value types.
+     * @param string $file The file that's excluded from checking
      */
-    public function offsetGet($offset)
+    public function addExcludedFile($file)
     {
-        return $this->values[$offset];
+        $this->excludedFiles->append($file);
     }
 
     /**
-     * Offset to set
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     * Add a directory that's excluded from checking
      *
-     * @param mixed $offset
-     * @param mixed $value The value to set.
+     * @param string $dir The directory that's excluded from checking
      */
-    public function offsetSet($offset, $value)
+    public function addExcludedDir($dir)
     {
-        // The config is read only.
+        $this->excludedDirs->append($dir);
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to unset
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
-     * @return void
+     * Add a file that's supposed to be executable
+     *
+     * @param string $file The file that should be executable
      */
-    public function offsetUnset($offset)
+    public function addExecutableFile($file)
     {
-        // The config is read only.
+        $this->executableFiles->append($file);
     }
 }

@@ -20,11 +20,6 @@ class PermCheck
     protected $loader;
 
     /**
-     * @var array
-     */
-    protected $params;
-
-    /**
      * @var ConfigInterface
      */
     protected $config;
@@ -35,7 +30,7 @@ class PermCheck
     protected $filesystem;
 
     /**
-     * @var MessageBagInterface;
+     * @var MessageBagInterface
      */
     protected $messageBag;
 
@@ -45,21 +40,14 @@ class PermCheck
     protected $reporter;
 
     /**
-     * Run the permission check and return any errors
-     *
-     * @return array
+     * @var string
      */
-    public function run()
-    {
-        $this->config->load();
-
-        // Do something
-    }
+    protected $reportFile;
 
     /**
-     * Get the messageBag that contains the error messages
+     * Get the messageBag that holds the error messages
      *
-     * @return
+     * @return MessageBagInterface
      */
     public function getMessageBag()
     {
@@ -84,5 +72,17 @@ class PermCheck
      */
     protected function getFileList()
     {
+    }
+
+    /**
+     * Run the permission check and return any errors
+     *
+     * @return array
+     */
+    public function run()
+    {
+        $this->config = $this->loader->parse();
+
+        // Do something
     }
 }

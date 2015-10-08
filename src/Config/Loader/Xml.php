@@ -32,20 +32,19 @@ class Xml extends AbstractLoader
             throw new \RuntimeException('Missing configuration elements');
         }
 
-        $data = array(
-            'excludes' => array(),
-            'executables' => array(),
-        );
-
-        foreach ($xml->excludes->children()->file as $element) {
-            $data['excludes'][] = (string) $element;
+        foreach ($xml->excludes->children()->file as $file) {
+            $this->config->addExcludedFile((string) $file);
         }
 
-        foreach ($xml->executables->children() as $element) {
-            $data['executables'][] = (string) $element;
+        foreach ($xml->excludes->children()->dir as $dir) {
+            $this->config->addExcludedDir((string) $dir);
         }
 
-        return $data;
+        foreach ($xml->executables->children() as $file) {
+            $this->config->addExecutableFile((string) $file);
+        }
+
+        return $this->config;
 
     }
 }
