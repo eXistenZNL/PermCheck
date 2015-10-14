@@ -11,4 +11,19 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log
+            type="coverage-text"
+            target="php://stdout"
+            showUncoveredFiles="true"
+            lowUpperBound="40"
+            highLowerBound="90"/>
+    </logging>
+
 </phpunit>
