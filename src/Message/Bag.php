@@ -28,7 +28,7 @@ class Bag extends AbstractBag
      * Add a message to this message bag
      *
      * @param string $message The message to add
-     * @param string $type    One of the
+     * @param string $type    The type of message to add
      */
     public function addMessage($message, $type)
     {
@@ -50,10 +50,15 @@ class Bag extends AbstractBag
     /**
      * Get the messages from this bag
      *
+     * @param $type The type of messages to receive
+     *
      * @return array
      */
-    public function getMessages()
+    public function getMessages($type)
     {
-        return $this->messages;
+        if (!array_key_exists($type, $this->messages)) {
+            return [];
+        }
+        return $this->messages[$type];
     }
 }

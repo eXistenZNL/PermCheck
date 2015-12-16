@@ -12,18 +12,15 @@ use eXistenZNL\PermCheck\Config\ConfigInterface;
 interface LoaderInterface
 {
     /**
-     * Set the config object that needs filling.
+     * Constructor
      *
-     * @param ConfigInterface $config The config that needs filling
+     * @param string $data
+     * @param ConfigInterface $config
      */
-    public function setConfig(ConfigInterface $config);
-
-    /**
-     * Set the data that should be parsed
-     *
-     * @param mixed $data The data that should be parsed
-     */
-    public function setData($data);
+    public function __construct(
+        $data,
+        ConfigInterface $config
+    );
 
     /**
      * Load the configuration, store it in the config bag, and return it.

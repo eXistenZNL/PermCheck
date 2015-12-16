@@ -45,6 +45,5 @@ class Xml extends AbstractLoader
         }
 
         return $this->config;
-
     }
 }

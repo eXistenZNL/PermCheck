@@ -3,14 +3,16 @@
 
 namespace eXistenZNL\PermCheck;
 
-use eXistenZNL\PermCheck\Config\Bag\Config;
-use eXistenZNL\PermCheck\Config\Loader\Xml;
+use eXistenZNL\PermCheck\Config\Config;
+use eXistenZNL\PermCheck\Config\Loader\Xml as XmlLoader;
+use eXistenZNL\PermCheck\Filesystem\Filesystem;
+use eXistenZNL\PermCheck\Message\Bag as MessageBag;
+use eXistenZNL\PermCheck\Reporter\Xml as XmlReporter;
 use Pimple\Container;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Filesystem\Filesystem;
 
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+require_once(dirname(__DIR__) . '/../../autoload.php');
 
 $input = new ArgvInput();
 $output = new ConsoleOutput();
@@ -37,29 +39,34 @@ $container['configFile'] = $configFile;
 $container['directory'] = $directory;
 $container['reportFile'] = $reportFile;
 
+$container['config'] = function ($c) {
+    return new Config();
+};
 $container['filesystem'] = function ($c) {
     $filesystem = new Filesystem();
     $filesystem->setDirectory($c['directory']);
     return $filesystem;
 };
 $container['loader'] = function ($c) {
-    $loader = new Xml();
-    $loader->setConfigFile($c['configFile']);
-    $loader->setMessageBag($c['messageBag']);
-    $loader->setFilesystem($c['filesystem']);
-    return $loader;
+    return new XmlLoader(
+        file_get_contents($c['configFile']),
+        $c['config']
+    );
 };
 $container['messageBag'] = function () {
-    return new Config();
+    return new MessageBag();
 };
 $container['permCheck'] = function ($c) {
-    $permCheck = new PermCheck();
-    $permCheck->setReportfile($c['reportFile']);
+    return new PermCheck(
+        $c['loader'],
+        $c['filesystem'],
+        $c['messageBag'],
+        $c['reporter'],
+        $c['directory']
+    );
 };
 $container['reporter'] = function ($c) {
-    $reporter = new Reporter();
-    $reporter->setReportFile($c['reportFile']);
-    return $reporter;
+    return new XmlReporter();
 };
 
 try {
@@ -71,18 +78,21 @@ try {
     exit (1);
 }
 
-if (count($errors['minx']) > 0 || count($errors['plusx']) > 0) {
+if ($errors->hasMessages()) {
     $output->writeln('<fg=yellow>Done, but with errors:</>');
 
-    if (count($errors['minx']) > 0) {
+    $messages = $errors->getMessages('minx');
+    if (count($messages) > 0) {
         $output->writeln(PHP_EOL . '  <fg=yellow>Files that should NOT be executeble but are:</>');
-        foreach ($errors['minx'] as $file) {
+        foreach ($messages as $file) {
             $output->writeln('    <fg=yellow>' . $file . '</>');
         }
     }
-    if (count($errors['plusx']) > 0) {
+
+    $messages = $errors->getMessages('plusx');
+    if (count($messages) > 0) {
         $output->writeln(PHP_EOL . '  <fg=yellow>Files that should be executeble but are NOT:</>');
-        foreach ($errors['plusx'] as $file) {
+        foreach ($messages as $file) {
             $output->writeln('    <fg=yellow>' . $file . '</>');
         }
     }

@@ -63,4 +63,34 @@ abstract class AbstractConfig implements ConfigInterface
     {
         $this->executableFiles->append($file);
     }
+
+    /**
+     * Get the excluded dirs
+     *
+     * @return \ArrayIterator
+     */
+    public function getExcludedDirs()
+    {
+        return $this->excludedDirs;
+    }
+
+    /**
+     * Get the excluded files
+     *
+     * @return \ArrayIterator
+     */
+    public function getExcludedFiles()
+    {
+        return $this->excludedFiles;
+    }
+
+    /**
+     * Get the executable files
+     *
+     * @return \ArrayIterator
+     */
+    public function getExecutableFiles()
+    {
+        return $this->executableFiles;
+    }
 }

@@ -12,32 +12,24 @@ use eXistenZNL\PermCheck\Config\ConfigInterface;
 abstract class AbstractLoader implements LoaderInterface
 {
     /**
+     * The config where the data is stored in
+     *
      * @var ConfigInterface;
      */
     protected $config;
 
     /**
-     * @var mixed
+     * The data to parse
+     *
+     * @var string
      */
     protected $data;
 
-    /**
-     * Set the config object that needs filling.
-     *
-     * @param ConfigInterface $config The config that needs filling
-     */
-    public function setConfig(ConfigInterface $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * Set the data that should be parsed
-     *
-     * @param mixed $data The data that should be parsed
-     */
-    public function setData($data)
-    {
+    public function __construct(
+        $data,
+        ConfigInterface $config
+    ) {
         $this->data = $data;
+        $this->config = $config;
     }
 }

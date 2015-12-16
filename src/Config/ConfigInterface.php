@@ -29,4 +29,25 @@ interface ConfigInterface
      * @param string $file The file that should be executable
      */
     public function addExecutableFile($file);
+
+    /**
+     * Get the excluded dirs
+     *
+     * @return \ArrayIterator
+     */
+    public function getExcludedDirs();
+
+    /**
+     * Get the excluded files
+     *
+     * @return \ArrayIterator
+     */
+    public function getExcludedFiles();
+
+    /**
+     * Get the executable files
+     *
+     * @return \ArrayIterator
+     */
+    public function getExecutableFiles();
 }
