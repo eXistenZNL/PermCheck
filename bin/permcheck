@@ -41,9 +41,11 @@ try {
     exit (1);
 }
 
+$configFileContents = file_get_contents($configFile);
+
 // Assemble the DI
 $container = new ContainerBuilder();
-$container->setParameter('configFile', $configFile);
+$container->setParameter('configFileContents', $configFileContents);
 $container->setParameter('directory', $directory);
 $container->setParameter('reportFile', $reportFile);
 
@@ -55,7 +57,7 @@ $container->register('filesystem', Filesystem::class)
     ]);
 
 $container->register('loader', XmlLoader::class)
-    ->addArgument('%configFile%')
+    ->addArgument( '%configFileContents%')
     ->addArgument(new Reference('config'));
 
 $container->register('messageBag', MessageBag::class);
@@ -99,6 +101,6 @@ if ($errors->hasMessages()) {
     exit(1);
 }
 
-$output->writeln('<fg=green>All done!</>');
+$output->writeln('<fg=green>No permission problems found!</>');
 exit(0);
 

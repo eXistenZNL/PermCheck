@@ -1,0 +1,6 @@
+<permcheck>
+    <excludes />
+    <executables>
+        <file>bin/permcheck</file>
+    </executables>
+</permcheck>
