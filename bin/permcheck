@@ -8,9 +8,10 @@ use eXistenZNL\PermCheck\Config\Loader\Xml as XmlLoader;
 use eXistenZNL\PermCheck\Filesystem\Filesystem;
 use eXistenZNL\PermCheck\Message\Bag as MessageBag;
 use eXistenZNL\PermCheck\Reporter\Xml as XmlReporter;
-use Pimple\Container;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 if (is_file(__DIR__ . '/../../../vendor/autoload.php')) {
     require_once(__DIR__ . '/../../../vendor/autoload.php');
@@ -41,43 +42,35 @@ try {
 }
 
 // Assemble the DI
-$container = new Container();
-$container['configFile'] = $configFile;
-$container['directory'] = $directory;
-$container['reportFile'] = $reportFile;
+$container = new ContainerBuilder();
+$container->setParameter('configFile', $configFile);
+$container->setParameter('directory', $directory);
+$container->setParameter('reportFile', $reportFile);
 
-$container['config'] = function ($c) {
-    return new Config();
-};
-$container['filesystem'] = function ($c) {
-    $filesystem = new Filesystem();
-    $filesystem->setDirectory($c['directory']);
-    return $filesystem;
-};
-$container['loader'] = function ($c) {
-    return new XmlLoader(
-        file_get_contents($c['configFile']),
-        $c['config']
-    );
-};
-$container['messageBag'] = function () {
-    return new MessageBag();
-};
-$container['permCheck'] = function ($c) {
-    return new PermCheck(
-        $c['loader'],
-        $c['filesystem'],
-        $c['messageBag'],
-        $c['reporter'],
-        $c['directory']
-    );
-};
-$container['reporter'] = function ($c) {
-    return new XmlReporter();
-};
+$container->register('config', Config::class);
+
+$container->register('filesystem', Filesystem::class)
+    ->addMethodCall('setDirectory', [
+        '%directory%'
+    ]);
+
+$container->register('loader', XmlLoader::class)
+    ->addArgument('%configFile%')
+    ->addArgument(new Reference('config'));
+
+$container->register('messageBag', MessageBag::class);
+
+$container->register('permCheck', PermCheck::class)
+    ->addArgument(new Reference('loader'))
+    ->addArgument(new Reference('filesystem'))
+    ->addArgument(new Reference('messageBag'))
+    ->addArgument(new Reference('reporter'))
+    ->addArgument('%directory%');
+
+$container->register('reporter', XmlReporter::class);
 
 try {
-    $permCheck = $container['permCheck'];
+    $permCheck = $container->get('permCheck');
     $permCheck->run();
     $errors = $permCheck->getErrors();
 } catch (\Exception $e) {
