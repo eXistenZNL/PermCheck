@@ -12,7 +12,14 @@ use Pimple\Container;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-require_once(dirname(__DIR__) . '/../../autoload.php');
+if (is_file(__DIR__ . '/../../../vendor/autoload.php')) {
+    require_once(__DIR__ . '/../../../vendor/autoload.php');
+} elseif (is_file(__DIR__ . '/../vendor/autoload.php')) {
+    require_once(__DIR__ . '/../vendor/autoload.php');
+} else {
+    echo 'Could not find the Composer Autoloader...quiting.' . PHP_EOL;
+    die;
+}
 
 $input = new ArgvInput();
 $output = new ConsoleOutput();
@@ -101,3 +108,4 @@ if ($errors->hasMessages()) {
 
 $output->writeln('<fg=green>All done!</>');
 exit(0);
+
