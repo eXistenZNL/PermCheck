@@ -52,18 +52,18 @@ $container->setParameter('reportFile', $reportFile);
 $container->register('config', Config::class);
 
 $container->register('filesystem', Filesystem::class)
-    ->addMethodCall('setDirectory', [
-        '%directory%'
-    ]);
+    ->addArgument(new Reference('config'))
+    ->addArgument('%directory%');
 
 $container->register('loader', XmlLoader::class)
-    ->addArgument( '%configFileContents%')
+    ->addArgument('%configFileContents%')
     ->addArgument(new Reference('config'));
 
 $container->register('messageBag', MessageBag::class);
 
 $container->register('permCheck', PermCheck::class)
     ->addArgument(new Reference('loader'))
+    ->addArgument(new Reference('config'))
     ->addArgument(new Reference('filesystem'))
     ->addArgument(new Reference('messageBag'))
     ->addArgument(new Reference('reporter'))
@@ -74,16 +74,16 @@ $container->register('reporter', XmlReporter::class);
 try {
     $permCheck = $container->get('permCheck');
     $permCheck->run();
-    $errors = $permCheck->getErrors();
+    $bag = $permCheck->getMessageBag();
 } catch (\Exception $e) {
     $output->writeln('<fg=red>' . $e->getMessage() . '</>');
     exit (1);
 }
 
-if ($errors->hasMessages()) {
+if ($bag->hasMessages()) {
     $output->writeln('<fg=yellow>Done, but with errors:</>');
 
-    $messages = $errors->getMessages('minx');
+    $messages = $bag->getMessages('minx');
     if (count($messages) > 0) {
         $output->writeln(PHP_EOL . '  <fg=yellow>Files that should NOT be executeble but are:</>');
         foreach ($messages as $file) {
@@ -91,7 +91,7 @@ if ($errors->hasMessages()) {
         }
     }
 
-    $messages = $errors->getMessages('plusx');
+    $messages = $bag->getMessages('plusx');
     if (count($messages) > 0) {
         $output->writeln(PHP_EOL . '  <fg=yellow>Files that should be executeble but are NOT:</>');
         foreach ($messages as $file) {

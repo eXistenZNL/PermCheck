@@ -14,9 +14,8 @@ class Xml extends AbstractLoader
     /**
      * Load the configuration and return it in an easy to use config bag.
      *
+     * @throws \RuntimeException When an error occurs.
      * @return ConfigInterface
-     *
-     * @throws \RuntimeException
      */
     public function parse()
     {

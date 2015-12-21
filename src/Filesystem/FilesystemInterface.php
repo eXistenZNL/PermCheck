@@ -1,6 +1,7 @@
 <?php
 
 namespace eXistenZNL\PermCheck\Filesystem;
+
 use eXistenZNL\PermCheck\Config\ConfigInterface;
 use RecursiveIteratorIterator;
 
@@ -12,18 +13,15 @@ use RecursiveIteratorIterator;
 interface FilesystemInterface
 {
     /**
-     * Set the directory up for scanning
+     * AbstractFilesystem constructor.
      *
-     * @param string $directory
+     * @param ConfigInterface $config    The config to use.
+     * @param string          $directory The directory to scan.
      */
-    public function setDirectory($directory);
-
-    /**
-     * Set the config to use
-     *
-     * @param ConfigInterface $config
-     */
-    public function setConfig(ConfigInterface $config);
+    public function __construct(
+        ConfigInterface $config,
+        $directory
+    );
 
     /**
      * Get a list of all files in a given directory,

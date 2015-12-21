@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="eXistenZNL/PermCheck" default="build" basedir=".">
+
+    <target name="phpunit">
+        <exec command="vendor/bin/phpunit --config=dev/phpunit/phpunit.xml" passthru="true" checkreturn="true" />
+    </target>
+
+    <target name="phpcs">
+        <exec command="vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src" passthru="true" checkreturn="true" />
+    </target>
+
+    <target name="build" depends="phpcs, phpunit" />
+    
+</project>
+

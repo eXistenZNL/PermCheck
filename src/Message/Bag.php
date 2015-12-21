@@ -10,25 +10,13 @@ namespace eXistenZNL\PermCheck\Message;
 class Bag extends AbstractBag
 {
     /**
-     * @var array
-     */
-    protected $messages;
-
-    /**
-     * Check whether this message bag has any messages
+     * Add a message to this message bag.
      *
-     * @return boolean
-     */
-    public function hasMessages()
-    {
-        return count($this->messages) > 0;
-    }
-
-    /**
-     * Add a message to this message bag
+     * @param string $message The message to add.
+     * @param string $type    The type of message to add.
      *
-     * @param string $message The message to add
-     * @param string $type    The type of message to add
+     * @throws  \InvalidArgumentException When the provided data is incorrect.
+     * @return Bag
      */
     public function addMessage($message, $type)
     {
@@ -45,12 +33,24 @@ class Bag extends AbstractBag
             throw new \InvalidArgumentException('Type can\'t be empty');
         }
         $this->messages[$type][] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Check whether this message bag has any messages.
+     *
+     * @return boolean Whether this bag has any messages.
+     */
+    public function hasMessages()
+    {
+        return count($this->messages) > 0;
     }
 
     /**
      * Get the messages from this bag
      *
-     * @param $type The type of messages to receive
+     * @param string $type The type of messages to receive.
      *
      * @return array
      */

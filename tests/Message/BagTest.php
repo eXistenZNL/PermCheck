@@ -1,8 +1,6 @@
 <?php
 
-namespace tests\Config;
-
-use eXistenZNL\PermCheck\Message\Bag;
+namespace eXistenZNL\PermCheck\Message;
 
 class BagTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,15 +34,29 @@ class BagTest extends \PHPUnit_Framework_TestCase
 
     public function testIfWeCanRetrieveTheMessageWeSetBefore()
     {
-        $this->bag->addMessage('message 1', 'error');
+        $this->bag->addMessage('foo', 'bar');
         $this->assertEquals(
-            $this->bag->getMessages(),
+            $this->bag->getMessages('bar'),
             array(
-                'error' => array(
-                    'message 1',
-                )
+                'foo',
             )
         );
+    }
+
+    public function testIfWeGetAnEmptyArrayWhenRetrievingABogusMessageType()
+    {
+        $this->bag->addMessage('foo', 'bar');
+        $messages = $this->bag->getMessages('baz');
+        $this->assertEquals([], $messages);
+    }
+
+    public function testIfWeHaveMessages()
+    {
+        $this->assertFalse($this->bag->hasMessages());
+        $this->bag->addMessage('foo', 'bar');
+        $this->assertTrue($this->bag->hasMessages());
+        $this->bag->getMessages('bar');
+        $this->assertTrue($this->bag->hasMessages());
     }
 
     /**
@@ -59,6 +71,7 @@ class BagTest extends \PHPUnit_Framework_TestCase
     public function crappyAddMessageArgumentsProvider()
     {
         return array(
+            array(null, null),
             array('message', ''),
             array('', 'warning'),
             array(array(), 'error'),

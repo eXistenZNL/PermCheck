@@ -12,10 +12,10 @@ use eXistenZNL\PermCheck\Config\ConfigInterface;
 interface LoaderInterface
 {
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $data
-     * @param ConfigInterface $config
+     * @param string          $data   The data to parse.
+     * @param ConfigInterface $config The config to fill.
      */
     public function __construct(
         $data,

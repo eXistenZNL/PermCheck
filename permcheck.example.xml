@@ -1,5 +1,8 @@
 <permcheck>
-    <excludes />
+    <excludes>
+        <dir>vendor/</dir>
+        <dir>.git/</dir>
+    </excludes>
     <executables>
         <file>bin/permcheck</file>
     </executables>

@@ -28,21 +28,20 @@ abstract class AbstractFilesystem implements FilesystemInterface
     protected $directory;
 
     /**
-     * Set the config to use
+     * AbstractFilesystem constructor.
      *
-     * @param ConfigInterface $config
+     * @param ConfigInterface $config    The config to use.
+     * @param string          $directory The directory to scan.
      */
-    public function setConfig(ConfigInterface $config)
-    {
-        $this->config = $config;
-    }
-
-    public function setDirectory($directory)
-    {
+    public function __construct(
+        ConfigInterface $config,
+        $directory
+    ) {
         if (substr($directory, -1) !== '/') {
             $directory .= '/';
         }
         $this->directory = $directory;
+        $this->config = $config;
     }
 
     /**

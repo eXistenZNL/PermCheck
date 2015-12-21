@@ -10,6 +10,17 @@ namespace eXistenZNL\PermCheck\Message;
 interface BagInterface
 {
     /**
+     * Add a message to this message bag.
+     *
+     * @param string $message The message to add.
+     * @param string $type    The type of message to add.
+     *
+     * @throws  \InvalidArgumentException When the provided data is incorrect.
+     * @return Bag
+     */
+    public function addMessage($message, $type);
+
+    /**
      * Check whether this message bag has any messages
      *
      * @return boolean
@@ -17,17 +28,9 @@ interface BagInterface
     public function hasMessages();
 
     /**
-     * Add a message to this message bag
-     *
-     * @param string $message The message to add
-     * @param string $type    One of the
-     */
-    public function addMessage($message, $type);
-
-    /**
      * Get the messages from this bag
      *
-     * @param $type The type of messages to receive
+     * @param string $type The type of messages to receive.
      *
      * @return array
      */

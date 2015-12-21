@@ -37,7 +37,8 @@ abstract class AbstractConfig implements ConfigInterface
     /**
      * Add a file that's excluded from checking
      *
-     * @param string $file The file that's excluded from checking
+     * @param string $file The file that's excluded from checking.
+     * @return void
      */
     public function addExcludedFile($file)
     {
@@ -47,7 +48,8 @@ abstract class AbstractConfig implements ConfigInterface
     /**
      * Add a directory that's excluded from checking
      *
-     * @param string $dir The directory that's excluded from checking
+     * @param string $dir The directory that's excluded from checking.
+     * @return void
      */
     public function addExcludedDir($dir)
     {
@@ -57,7 +59,8 @@ abstract class AbstractConfig implements ConfigInterface
     /**
      * Add a file that's supposed to be executable
      *
-     * @param string $file The file that should be executable
+     * @param string $file The file that should be executable.
+     * @return void
      */
     public function addExecutableFile($file)
     {

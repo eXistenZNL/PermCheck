@@ -1,66 +1,77 @@
 <?php
 
-namespace tests\Config;
+namespace eXistenZNL\PermCheck\Config\Loader;
 
-use eXistenZNL\PermCheck\Config\Loader\Xml;
+use eXistenZNL\PermCheck\Config\Config;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Xml
-     */
-    protected $xml;
-
-    /**
-     * PHPUnit setup
-     */
-    public function setUp()
-    {
-        $config = new TestConfig();
-        $this->xml = new Xml();
-        $this->xml->setConfig($config);
-    }
-
-    /**
-     * PHPUnit teardown
-     */
     public function tearDown()
     {
-        unset($this->xml);
+        \Mockery::close();
     }
 
     /**
      * @dataProvider brokenXmlProvider
      * @expectedException \RuntimeException
      */
-    public function testIfLoadingABrokenXmlFails($xml)
+    public function testIfLoadingABrokenXmlFails($data)
     {
-        $this->xml->setData($xml);
-        $this->xml->parse();
+        $config = \Mockery::mock(new Config());
+        $xml = new Xml(
+            $data,
+            $config
+        );
+
+        $xml->parse();
     }
 
     /**
      * @dataProvider correctXmlProvider
      */
-    public function testIfLoadingACorrectXmlWorks($xml)
+    public function testIfLoadingACorrectXmlWorks($data)
     {
-        $this->xml->setData($xml);
-        $this->xml->parse();
+        $config = \Mockery::mock(new Config());
+        $xml = new Xml(
+            $data,
+            $config
+        );
+        $xml->parse();
     }
 
     /**
-     * @dataProvider excludesProvider
+     * @dataProvider correctXmlWithValidationDataProvider
      */
-    public function testIfExcludesAreReadFromTheConfig($xml, $data)
+    public function testIfTheRightFilesAndFoldersAreLoadedIntoTheConfig($data, $files)
     {
-        $this->xml->setData($xml);
+        $config = \Mockery::mock(new Config());
+        $xml = new Xml(
+            $data,
+            $config
+        );
 
-        /* @var TestConfig $config */
-        $config = $this->xml->parse();
+        foreach ($files['files'] as $file) {
+            $config->shouldReceive('addExcludedFile')
+                ->once()
+                ->withArgs(array($file))
+                ->andReturn($config);
+        }
 
-        $this->assertEquals($config->dumpExcludedDirs(), $data['dirs']);
-        $this->assertEquals($config->dumpExcludedFiles(), $data['files']);
-        $this->assertEquals($config->dumpExecutableFiles(), $data['executables']);
+        foreach ($files['dirs'] as $dir) {
+            $config->shouldReceive('addExcludedDir')
+                ->once()
+                ->withArgs(array($dir))
+                ->andReturn($config);
+        }
+
+        foreach ($files['executables'] as $executable) {
+            $config->shouldReceive('addExecutableFile')
+                ->once()
+                ->withArgs(array($executable))
+                ->andReturn($config);
+        }
+
+        $xml->parse();
     }
 
     public function brokenXmlProvider()
@@ -84,7 +95,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function excludesProvider()
+    public function correctXmlWithValidationDataProvider()
     {
         return array(
             array(

@@ -5,7 +5,6 @@ namespace eXistenZNL\PermCheck;
 use eXistenZNL\PermCheck\Config\ConfigInterface;
 use eXistenZNL\PermCheck\Config\Loader\LoaderInterface as ConfigLoaderInterface;
 use eXistenZNL\PermCheck\Filesystem\FilesystemInterface;
-use eXistenZNL\PermCheck\Message\Bag;
 use eXistenZNL\PermCheck\Message\BagInterface as MessageBagInterface;
 use eXistenZNL\PermCheck\Reporter\ReporterInterface;
 use SplFileInfo;
@@ -55,19 +54,23 @@ class PermCheck
     /**
      * Constructor
      *
-     * @param ConfigLoaderInterface $loader
-     * @param FilesystemInterface $filesystem
-     * @param MessageBagInterface $messageBag
-     * @param ReporterInterface $reporter
+     * @param ConfigLoaderInterface $loader     The config loader.
+     * @param ConfigInterface       $config     The config.
+     * @param FilesystemInterface   $filesystem The filesystem.
+     * @param MessageBagInterface   $messageBag The message bag.
+     * @param ReporterInterface     $reporter   The reporter.
+     * @param string                $directory  The directory to scan.
      */
     public function __construct(
         ConfigLoaderInterface $loader,
+        ConfigInterface $config,
         FilesystemInterface $filesystem,
         MessageBagInterface $messageBag,
         ReporterInterface $reporter,
         $directory
     ) {
         $this->loader = $loader;
+        $this->config = $config;
         $this->filesystem = $filesystem;
         $this->messageBag = $messageBag;
         $this->reporter = $reporter;
@@ -85,25 +88,13 @@ class PermCheck
     }
 
     /**
-     * Get a list of files that we can loop trough
-     *
-     * @throws \RuntimeException
-     * @return \Iterator
-     */
-    protected function getFileList()
-    {
-    }
-
-    /**
      * Run the permission check and return any errors
      *
-     * @return array
+     * @return void
      */
     public function run()
     {
-        $this->config = $this->loader->parse();
-
-        $this->filesystem->setConfig($this->config);
+        $this->loader->parse();
         $files = $this->filesystem->getFiles();
 
         // Now we check all the files against the config
@@ -135,15 +126,16 @@ class PermCheck
         }
     }
 
-    public function getErrors()
-    {
-        return $this->messageBag;
-    }
-
+    /**
+     * Check whether the given file should be excluded.
+     *
+     * @param string $filename The filename to check.
+     *
+     * @return boolean
+     */
     protected function isExcluded($filename)
     {
-        foreach ($this->config->getExcludedDirs() as $excludedDir)
-        {
+        foreach ($this->config->getExcludedDirs() as $excludedDir) {
             if (strpos($filename, $excludedDir) === 0) {
                 return true;
             }
@@ -151,10 +143,16 @@ class PermCheck
         return false;
     }
 
+    /**
+     * Check whether the given file should be executable.
+     *
+     * @param string $filename The filename to check.
+     *
+     * @return boolean
+     */
     protected function shouldBeExecutable($filename)
     {
-        foreach ($this->config->getExecutableFiles() as $exFile)
-        {
+        foreach ($this->config->getExecutableFiles() as $exFile) {
             if ($filename === $exFile) {
                 return true;
             }
@@ -162,6 +160,13 @@ class PermCheck
         return false;
     }
 
+    /**
+     * Get the relative name of the given file.
+     *
+     * @param SplFileInfo $file The file to get the relative name for.
+     *
+     * @return string
+     */
     protected function getRelativeFilename(SplFileInfo $file)
     {
         $filename = $file->getPathname();

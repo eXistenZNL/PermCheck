@@ -25,6 +25,12 @@ abstract class AbstractLoader implements LoaderInterface
      */
     protected $data;
 
+    /**
+     * Constructor.
+     *
+     * @param string          $data   The data to parse.
+     * @param ConfigInterface $config The config to fill.
+     */
     public function __construct(
         $data,
         ConfigInterface $config
