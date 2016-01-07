@@ -6,10 +6,20 @@
     </target>
 
     <target name="phpcs">
-        <exec command="vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src" passthru="true" checkreturn="true" />
+    <!-- On PHP7 we disable Squiz.Commenting.FunctionComment because when it detects
+         that we are on PHP7 it will also check for scalar type hints, but we cannot
+         use scalar type hinting because that would break backwards compatibility
+         with PHP 5. -->
+    <if>
+        <versioncompare version="${php.version}" desiredVersion="7.0.0" />
+        <then>
+          <exec command="sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml" />
+        </then>
+    </if>
+    <exec command="vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src" passthru="true" checkreturn="true" />
     </target>
 
     <target name="build" depends="phpcs, phpunit" />
-    
+
 </project>
 

@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/eXistenZNL/PermCheck.svg?branch=master)](https://travis-ci.org/eXistenZNL/PermCheck)
 
 PermCheck is a little tool that checks if the files in a project have the executable bit set properly.
-It's available for PHP versions 5.3 and up (PHP7 support is slightly experimental at the time), and is very light on dependencies, so you should be able to add it to nearly any project.
+It's available for PHP versions 5.3 and up, and is very light on dependencies, so you should be able to add it to nearly any project.
 
 PermCheck aims to prevent inconsistent executable bits and thus random executable files in a project, which makes a project more consistent and more secure.
 
