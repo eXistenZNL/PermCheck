@@ -69,14 +69,14 @@ ENDXML;
         ));
 
         $files = new \ArrayIterator();
-        $mocks = [
+        $mocks = array(
             '/does/not/exist/file1.sh' => true,
             '/does/not/exist/file2.txt' => false,
             '/does/not/exist/file3.sh' => false,
             '/does/not/exist/file4.txt' => true,
             '/does/not/exist/excluded/file5.txt' => true,
             '/does/not/exist/excluded2/file6.sh' => false,
-        ];
+        );
         foreach ($mocks as $file => $executable) {
             $file = \Mockery::mock(new \SplFileInfo($file));
             $file->shouldReceive('getName')->andReturn($file);

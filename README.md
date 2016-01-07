@@ -1,8 +1,9 @@
 ## About
 
 PermCheck is a little tool that checks if the files in a project have the executable bit set properly.
+It's available for PHP versions 5.3 and up, and is very light on dependencies, so you should be able to add it to nearly any project.
 
-This prevent inconsistent executable bits and thus random executable files in a project, which makes a project more consistent and more secure.
+PermCheck aims to prevent inconsistent executable bits and thus random executable files in a project, which makes a project more consistent and more secure.
 
 ## Installation
 
@@ -23,17 +24,17 @@ The directories section should contain all project directories that are to be ch
 An example:
 
     <permcheck>
-        <directories>
-            <dir>app/</dir>
-            <dir>src/</dir>
-            <dir>cli/</dir>
-        </directories>
+        <excludes>
+            <dir>.git</dir>
+            <dir>vendor/</dir>
+            <file>dontcare.sh</file>
+        </excludes>
         <executables>
             <file>cli/console</file>
         </executables>
     </permcheck>
 
-In the example configuration above, the dirs app, src, and cli are validated, and only the file cli/console must be executable.
+In the example configuration above, everything but the dirs .git and vendor and the file dontcare.sh is validated, and only the file cli/console must be executable.
 
 If it's not, PermCheck will issue an error.
 
@@ -55,9 +56,10 @@ The following options and flags are available:
 | ------------ |-----------| --------- | ----------------------------------------------------------------------------- |
 | --config     | -c        | Yes       | The location of the configuration XML.                                        |
 | --directory  | -d        | No        | De location of the base directory, defaults to the current working directory. |
-| --report     | -r        | No        | If specified, a status XML will be written to this location.                  |
 | --verbose    | -v        | No        | If specified, the errors will be printed to the console.                      |
 
-## Report format
+## Bugs, questions, and improvements
 
+If you found a bug or have a question, please open an issue on the GitHub Issue tracker.
+Improvements can be sent by a Pull Request against the develop branch and are greatly appreciated!
 
