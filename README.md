@@ -48,7 +48,7 @@ With a configuration XML stored somewhere in your codebase, we can now start usi
 
 Executing permcheck is straightforward by running the command with the required / needed flags and options.
 
-`vendor/bin/permcheck <--config|-c=...> [--directory|-d=...] [--exitstatus] [--report|-r=...] [--verbose]`
+`vendor/bin/permcheck <--config|-c=...> [--directory|-d=...]`
 
 PermCheck makes use of the Symfony 2 [Console Component](http://symfony.com/doc/current/components/console/introduction.html) so the flags and options can be specified in the various formats outlined in the SF2 Console Component documentation.
 

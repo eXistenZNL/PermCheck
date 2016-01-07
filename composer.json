@@ -1,11 +1,10 @@
 {
     "name": "existenznl/permcheck",
-    "description": "PermCheck is a tool to validate the executable bit of project files",
+    "description": "PermCheck is a tool to validate the executable bit of files in a PHP project",
     "license": "MIT",
     "require": {
         "symfony/console": "^2.6.0",
-        "symfony/dependency-injection": "^2.6.0",
-        "mockery/mockery": "^0.9.4"
+        "symfony/dependency-injection": "^2.6.0"
     },
     "authors": [
         {
@@ -23,7 +22,8 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "> 4.5",
-        "squizlabs/php_codesniffer": "^2.5",
-        "phing/phing": "^2.13"
+        "squizlabs/php_codesniffer": "^2.5.0",
+        "phing/phing": "^2.13.0",
+        "mockery/mockery": "^0.9.4"
     }
 }
