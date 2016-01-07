@@ -135,6 +135,11 @@ class PermCheck
      */
     protected function isExcluded($filename)
     {
+        foreach ($this->config->getExcludedFiles() as $excludedFile) {
+            if ($filename === $excludedFile) {
+                return true;
+            }
+        }
         foreach ($this->config->getExcludedDirs() as $excludedDir) {
             if (strpos($filename, $excludedDir) === 0) {
                 return true;
