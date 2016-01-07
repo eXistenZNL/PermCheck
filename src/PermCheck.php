@@ -176,7 +176,7 @@ class PermCheck
     {
         $filename = $file->getPathname();
         $regex = sprintf('#^(%s)/(.+)#', $this->directory);
-        $matches = [];
+        $matches = array();
 
         preg_match(
             $regex,

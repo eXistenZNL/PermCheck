@@ -47,7 +47,7 @@ class BagTest extends \PHPUnit_Framework_TestCase
     {
         $this->bag->addMessage('foo', 'bar');
         $messages = $this->bag->getMessages('baz');
-        $this->assertEquals([], $messages);
+        $this->assertEquals(array(), $messages);
     }
 
     public function testIfWeHaveMessages()

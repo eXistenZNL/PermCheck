@@ -19,11 +19,11 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $config = \Mockery::mock('eXistenZNL\PermCheck\Config\Config');
         $filesystem = new Filesystem($config, dirname(__FILE__));
 
-        $files = [
+        $files = array(
             __FILE__
-        ];
+        );
 
-        $result = [];
+        $result = array();
         foreach ($filesystem->getFiles() as $file) {
             $result[] = $file->getPathname();
         }
