@@ -82,7 +82,7 @@ ENDXML;
             $file = \Mockery::mock(new \SplFileInfo($file));
             $file->shouldReceive('getName')->andReturn($file);
             $file->shouldReceive('isExecutable')->andReturn($properties[0]);
-            $file->shouldReceive('isSymlink')->andReturn($properties[1]);
+            $file->shouldReceive('isLink')->andReturn($properties[1]);
             $files->append($file);
         }
         $this->fileSystem->shouldReceive('getFiles')->andReturn($files);
