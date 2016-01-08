@@ -20,3 +20,4 @@ install:
 
 script:
   - vendor/bin/phing build
+  - bin/permcheck -c permcheck.example.xml

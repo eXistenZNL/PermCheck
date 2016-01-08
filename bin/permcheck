@@ -3,11 +3,6 @@
 
 namespace eXistenZNL\PermCheck;
 
-use eXistenZNL\PermCheck\Config\Config;
-use eXistenZNL\PermCheck\Config\Loader\Xml as XmlLoader;
-use eXistenZNL\PermCheck\Filesystem\Filesystem;
-use eXistenZNL\PermCheck\Message\Bag as MessageBag;
-use eXistenZNL\PermCheck\Reporter\Xml as XmlReporter;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -49,19 +44,19 @@ $container->setParameter('configFileContents', $configFileContents);
 $container->setParameter('directory', $directory);
 $container->setParameter('reportFile', $reportFile);
 
-$container->register('config', Config::class);
+$container->register('config', 'eXistenZNL\PermCheck\Config\Config');
 
-$container->register('filesystem', Filesystem::class)
+$container->register('filesystem', 'eXistenZNL\PermCheck\Filesystem\Filesystem')
     ->addArgument(new Reference('config'))
     ->addArgument('%directory%');
 
-$container->register('loader', XmlLoader::class)
+$container->register('loader', 'eXistenZNL\PermCheck\Config\Loader\Xml')
     ->addArgument('%configFileContents%')
     ->addArgument(new Reference('config'));
 
-$container->register('messageBag', MessageBag::class);
+$container->register('messageBag', 'eXistenZNL\PermCheck\Message\Bag');
 
-$container->register('permCheck', PermCheck::class)
+$container->register('permCheck', 'eXistenZNL\PermCheck\PermCheck')
     ->addArgument(new Reference('loader'))
     ->addArgument(new Reference('config'))
     ->addArgument(new Reference('filesystem'))
@@ -69,7 +64,7 @@ $container->register('permCheck', PermCheck::class)
     ->addArgument(new Reference('reporter'))
     ->addArgument('%directory%');
 
-$container->register('reporter', XmlReporter::class);
+$container->register('reporter', 'eXistenZNL\PermCheck\Reporter\Xml');
 
 try {
     $permCheck = $container->get('permCheck');
