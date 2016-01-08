@@ -103,7 +103,7 @@ class PermCheck
             $file = $files->current();
 
             // Skip symlinks as they are always 0777
-            if ($file->isSymlink()) {
+            if ($file->isLink()) {
                 $files->next();
                 continue;
             }
