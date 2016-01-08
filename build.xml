@@ -2,7 +2,8 @@
 <project name="eXistenZNL/PermCheck" default="build" basedir=".">
 
     <target name="phpunit">
-        <exec command="vendor/bin/phpunit --config=dev/phpunit/phpunit.xml" passthru="true" checkreturn="true" />
+        <exec command="vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover"
+              passthru="true" checkreturn="true" />
     </target>
 
     <target name="phpcs">
