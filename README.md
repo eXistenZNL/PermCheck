@@ -1,6 +1,9 @@
-## About
+# PermCheck
 
-[![Build Status](https://travis-ci.org/eXistenZNL/PermCheck.svg?branch=master)](https://travis-ci.org/eXistenZNL/PermCheck)
+
+[![Travis branch](https://img.shields.io/travis/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://travis-ci.org/eXistenZNL/PermCheck) [![Scrutinizer branch](https://img.shields.io/scrutinizer/coverage/g/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Scrutinizer](https://img.shields.io/scrutinizer/g/eXistenZNL/PermCheck.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Packagist](https://img.shields.io/packagist/v/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck)  [![Packagist](https://img.shields.io/packagist/dm/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck/stats) [![Packagist](https://img.shields.io/packagist/l/existenznl/permcheck.svg?style=flat-square)](https://github.com/eXistenZNL/PermCheck/blob/master/LICENSE)
+
+## About
 
 PermCheck is a little tool that checks if the files in a project have the executable bit set properly.
 It's available for PHP versions 5.3 and up, and is very light on dependencies, so you should be able to add it to nearly any project.
