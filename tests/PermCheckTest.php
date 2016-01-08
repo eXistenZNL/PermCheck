@@ -70,17 +70,19 @@ ENDXML;
 
         $files = new \ArrayIterator();
         $mocks = array(
-            '/does/not/exist/file1.sh' => true,
-            '/does/not/exist/file2.txt' => false,
-            '/does/not/exist/file3.sh' => false,
-            '/does/not/exist/file4.txt' => true,
-            '/does/not/exist/excluded/file5.txt' => true,
-            '/does/not/exist/excluded2/file6.sh' => false,
+            '/does/not/exist/file1.sh' => array(true, false),
+            '/does/not/exist/file2.txt' => array(false, false),
+            '/does/not/exist/file3.sh' => array(false, false),
+            '/does/not/exist/file4.txt' => array(true, false),
+            '/does/not/exist/excluded/file5.txt' => array(true, false),
+            '/does/not/exist/excluded2/file6.sh' => array(false, false),
+            '/does/not/exist/symlink' => array(true, true),
         );
-        foreach ($mocks as $file => $executable) {
+        foreach ($mocks as $file => $properties) {
             $file = \Mockery::mock(new \SplFileInfo($file));
             $file->shouldReceive('getName')->andReturn($file);
-            $file->shouldReceive('isExecutable')->andReturn($executable);
+            $file->shouldReceive('isExecutable')->andReturn($properties[0]);
+            $file->shouldReceive('isSymlink')->andReturn($properties[1]);
             $files->append($file);
         }
         $this->fileSystem->shouldReceive('getFiles')->andReturn($files);
