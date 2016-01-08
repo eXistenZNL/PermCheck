@@ -116,18 +116,16 @@ class PermCheck
                 continue;
             }
 
-            if (!$this->shouldBeExecutable($filename) && $file->isExecutable()) {
-                $this->messageBag->addMessage($file->getPathname(), 'minx');
+            if (($this->shouldBeExecutable($filename) && $file->isExecutable())
+                || (!$this->shouldBeExecutable($filename) && !$file->isExecutable())) {
                 $files->next();
                 continue;
             }
 
-            if ($this->shouldBeExecutable($filename) && !$file->isExecutable()) {
-                $this->messageBag->addMessage($file->getPathname(), 'plusx');
-                $files->next();
-                continue;
-            }
-
+            $this->messageBag->addMessage(
+                $file->getPathname(),
+                $file->isExecutable() ? 'minx' : 'plusx'
+            );
             $files->next();
         }
     }
