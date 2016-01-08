@@ -102,6 +102,12 @@ class PermCheck
             /* @var SplFileInfo $file */
             $file = $files->current();
 
+            // Skip symlinks as they are always 0777
+            if ($file->isSymlink()) {
+                $files->next();
+                continue;
+            }
+
             $filename = $this->getRelativeFilename($file);
 
             // Skip excluded files, of course.
