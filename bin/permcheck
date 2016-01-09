@@ -80,7 +80,7 @@ if ($bag->hasMessages()) {
 
     $messages = $bag->getMessages('minx');
     if (count($messages) > 0) {
-        $output->writeln(PHP_EOL . '  <fg=yellow>Files that should NOT be executeble but are:</>');
+        $output->writeln(PHP_EOL . '  <fg=yellow>Files that should NOT be executable but are:</>');
         foreach ($messages as $file) {
             $output->writeln('    <fg=yellow>' . $file . '</>');
         }
@@ -88,7 +88,7 @@ if ($bag->hasMessages()) {
 
     $messages = $bag->getMessages('plusx');
     if (count($messages) > 0) {
-        $output->writeln(PHP_EOL . '  <fg=yellow>Files that should be executeble but are NOT:</>');
+        $output->writeln(PHP_EOL . '  <fg=yellow>Files that should be executable but are NOT:</>');
         foreach ($messages as $file) {
             $output->writeln('    <fg=yellow>' . $file . '</>');
         }

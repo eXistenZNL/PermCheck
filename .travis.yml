@@ -1,11 +1,13 @@
 language: php
 
-php:
- - 5.3
- - 5.4
- - 5.5
- - 5.6
- - 7.0
+matrix:
+  include:
+    - php: 5.3
+    - php: 5.4
+    - php: 5.5
+    - php: 5.6
+      env: SCRUTINIZER_REPORT=true
+    - php: 7.0
 
 cache:
   directories:
@@ -21,3 +23,8 @@ install:
 script:
   - vendor/bin/phing build
   - bin/permcheck -c permcheck.example.xml
+
+after_script: >
+  [ "$SCRUTINIZER_REPORT" = true ]
+  && wget https://scrutinizer-ci.com/ocular.phar
+  && php ocular.phar code-coverage:upload --format=php-clover coverage.clover

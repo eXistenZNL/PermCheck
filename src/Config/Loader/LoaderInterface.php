@@ -25,7 +25,7 @@ interface LoaderInterface
     /**
      * Load the configuration, store it in the config bag, and return it.
      *
-     * @return ConfigInterface;
+     * @return ConfigInterface
      */
     public function parse();
 }
