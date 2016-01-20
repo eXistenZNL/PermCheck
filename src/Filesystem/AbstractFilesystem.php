@@ -2,13 +2,11 @@
 
 namespace eXistenZNL\PermCheck\Filesystem;
 
-use AppendIterator;
 use eXistenZNL\PermCheck\Config\ConfigInterface;
 use FilesystemIterator;
-use RecursiveDirectoryIterator;
 use Iterator;
+use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use RegexIterator;
 
 /**
  * The abstract class for the filesystem

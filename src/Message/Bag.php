@@ -23,13 +23,13 @@ class Bag extends AbstractBag
         if (!is_string($message)) {
             throw new \InvalidArgumentException('Message must be a string');
         }
-        if (empty($message)) {
+        if (!$message) {
             throw new \InvalidArgumentException('Message can\'t be empty');
         }
         if (!is_string($type)) {
             throw new \InvalidArgumentException('Type must be a string');
         }
-        if (empty($type)) {
+        if (!$type) {
             throw new \InvalidArgumentException('Type can\'t be empty');
         }
         $this->messages[$type][] = $message;

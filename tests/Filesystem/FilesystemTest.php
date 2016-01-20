@@ -2,6 +2,9 @@
 
 namespace eXistenZNL\PermCheck\Filesystem;
 
+use eXistenZNL\PermCheck\Config\Config;
+use Mockery\MockInterface;
+
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -16,8 +19,9 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     public function testIfRetrievingTheFilesWorks()
     {
-        $config = \Mockery::mock('eXistenZNL\PermCheck\Config\Config');
-        $filesystem = new Filesystem($config, dirname(__FILE__));
+        /** @var Config|MockInterface $config */
+        $config = \Mockery::mock(new Config());
+        $filesystem = new Filesystem($config, __DIR__);
 
         $files = array(
             __FILE__
