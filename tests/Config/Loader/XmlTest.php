@@ -3,6 +3,7 @@
 namespace eXistenZNL\PermCheck\Config\Loader;
 
 use eXistenZNL\PermCheck\Config\Config;
+use Mockery\MockInterface;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,6 +18,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testIfLoadingABrokenXmlFails($data)
     {
+        /** @var Config|MockInterface $config */
         $config = \Mockery::mock(new Config());
         $xml = new Xml(
             $data,
@@ -31,6 +33,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testIfLoadingACorrectXmlWorks($data)
     {
+        /** @var Config|MockInterface $config */
         $config = \Mockery::mock(new Config());
         $xml = new Xml(
             $data,
@@ -44,6 +47,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testIfTheRightFilesAndFoldersAreLoadedIntoTheConfig($data, $files)
     {
+        /** @var Config|MockInterface $config */
         $config = \Mockery::mock(new Config());
         $xml = new Xml(
             $data,
@@ -83,7 +87,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             array(array()),
             array(''),
             array('<xml></xml>'),
-            array('<permcheck></permcheck>')
+            array('<permcheck></permcheck>'),
+            array('<permcheck><excludes /></permcheck>'),
+            array('<permcheck><executables /></permcheck>'),
         );
     }
 
