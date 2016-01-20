@@ -27,7 +27,7 @@ class Xml extends AbstractLoader
         if ($xml === false) {
             throw new \RuntimeException('Error during the loading of the XML file');
         }
-        if (!isset($xml->executables) || !isset($xml->excludes)) {
+        if (!isset($xml->executables, $xml->excludes)) {
             throw new \RuntimeException('Missing configuration elements');
         }
 

@@ -12,13 +12,9 @@ PermCheck aims to prevent inconsistent executable bits and thus random executabl
 
 ## Installation
 
-PermCheck can be added as a composer package by adding it to your composer.json:
+PermCheck can be added as a composer package by running:
 
-    {
-        "require-dev": {
-            "existenznl/permcheck": "^1.0"
-        }
-    }
+    composer require --dev existenznl/permcheck
 
 ## Configuration
 
@@ -28,16 +24,18 @@ The directories section should contain all project directories that are to be ch
 
 An example:
 
-    <permcheck>
-        <excludes>
-            <dir>.git</dir>
-            <dir>vendor/</dir>
-            <file>dontcare.sh</file>
-        </excludes>
-        <executables>
-            <file>cli/console</file>
-        </executables>
-    </permcheck>
+```xml
+<permcheck>
+    <excludes>
+        <dir>.git</dir>
+        <dir>vendor/</dir>
+        <file>dontcare.sh</file>
+    </excludes>
+    <executables>
+        <file>cli/console</file>
+    </executables>
+</permcheck>
+```
 
 In the example configuration above, everything but the dirs .git and vendor and the file dontcare.sh is validated, and only the file cli/console must be executable.
 

@@ -3,13 +3,17 @@
 namespace eXistenZNL\PermCheck;
 
 use eXistenZNL\PermCheck\Config\Config;
+use eXistenZNL\PermCheck\Config\Loader\LoaderInterface;
 use eXistenZNL\PermCheck\Config\Loader\Xml as XmlLoader;
 use eXistenZNL\PermCheck\Filesystem\Filesystem;
+use eXistenZNL\PermCheck\Filesystem\FilesystemInterface;
 use eXistenZNL\PermCheck\Message\Bag;
+use eXistenZNL\PermCheck\Message\BagInterface;
+use eXistenZNL\PermCheck\Reporter\ReporterInterface;
 use eXistenZNL\PermCheck\Reporter\Xml as XmlReporter;
-use Mockery\Mock;
+use Mockery\MockInterface;
 
-class permCheckTest extends \PHPUnit_Framework_TestCase
+class PermCheckTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var PermCheck
@@ -17,27 +21,27 @@ class permCheckTest extends \PHPUnit_Framework_TestCase
     protected $permCheck;
 
     /**
-     * @var Mock;
+     * @var MockInterface|Config
      */
     protected $config;
 
     /**
-     * @var Mock;
+     * @var MockInterface|LoaderInterface
      */
     protected $loader;
 
     /**
-     * @var Mock;
+     * @var MockInterface|FilesystemInterface
      */
     protected $fileSystem;
 
     /**
-     * @var Mock;
+     * @var MockInterface|BagInterface
      */
     protected $messageBag;
 
     /**
-     * @var Mock;
+     * @var MockInterface|ReporterInterface
      */
     protected $reporter;
 
@@ -79,6 +83,7 @@ ENDXML;
             '/does/not/exist/symlink' => array(true, true),
         );
         foreach ($mocks as $file => $properties) {
+            /** @var MockInterface|\SplFileInfo $file */
             $file = \Mockery::mock(new \SplFileInfo($file));
             $file->shouldReceive('getName')->andReturn($file);
             $file->shouldReceive('isExecutable')->andReturn($properties[0]);
