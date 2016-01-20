@@ -87,7 +87,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             array(array()),
             array(''),
             array('<xml></xml>'),
-            array('<permcheck></permcheck>')
+            array('<permcheck></permcheck>'),
+            array('<permcheck><excludes /></permcheck>'),
+            array('<permcheck><executables /></permcheck>'),
         );
     }
 
