@@ -102,32 +102,7 @@ class PermCheck
             /* @var SplFileInfo $file */
             $file = $files->current();
 
-            // Skip symlinks as they are always 0777
-            if ($file->isLink()) {
-                $files->next();
-                continue;
-            }
-
-            $filename = $this->getRelativeFilename($file);
-
-            // Skip excluded files, of course.
-            if ($this->isExcluded($filename)) {
-                $files->next();
-                continue;
-            }
-
-            $fileShouldBeExecutable = $this->shouldBeExecutable($filename);
-            if (!$fileShouldBeExecutable && $file->isExecutable()) {
-                $this->messageBag->addMessage($file->getPathname(), 'minx');
-                $files->next();
-                continue;
-            }
-
-            if ($fileShouldBeExecutable && !$file->isExecutable()) {
-                $this->messageBag->addMessage($file->getPathname(), 'plusx');
-                $files->next();
-                continue;
-            }
+            $this->checkFileState($file);
 
             $files->next();
         }
@@ -192,5 +167,36 @@ class PermCheck
         );
 
         return $matches[2];
+    }
+
+    /**
+     * @param SplFileInfo $file
+     */
+    private function checkFileState($file)
+    {
+        $filename = $this->getRelativeFilename($file);
+
+        // Skip symlinks
+        if ($file->isLink()) {
+            return;
+        }
+
+        // Check exclusion list
+        if ($this->isExcluded($filename)) {
+            return;
+        }
+
+        $shouldBeExecutable = $this->shouldBeExecutable($filename);
+        $isExecutable = $file->isExecutable();
+
+        if (!$shouldBeExecutable && $isExecutable) {
+            $this->messageBag->addMessage($file->getPathname(), 'minx');
+            return;
+        }
+
+        if ($shouldBeExecutable && !$isExecutable) {
+            $this->messageBag->addMessage($file->getPathname(), 'plusx');
+            return;
+        }
     }
 }
