@@ -170,9 +170,13 @@ class PermCheck
     }
 
     /**
+     * Check if the given file has the right permissions
+     *
      * @param SplFileInfo $file
+     *
+     * @return void
      */
-    private function checkFileState($file)
+    private function checkFileState(SplFileInfo $file)
     {
         $filename = $this->getRelativeFilename($file);
 
