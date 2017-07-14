@@ -170,9 +170,9 @@ class PermCheck
     }
 
     /**
-     * Check if the given file has the right permissions
+     * Check if the given file has the right permissions.
      *
-     * @param SplFileInfo $file the file you want to check for the correct permissions
+     * @param SplFileInfo $file The file you want to check for the correct permissions.
      *
      * @return void
      */
