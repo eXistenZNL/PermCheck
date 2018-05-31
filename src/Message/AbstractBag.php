@@ -14,5 +14,5 @@ abstract class AbstractBag implements BagInterface
      *
      * @var array
      */
-    protected $messages;
+    protected $messages = [];
 }

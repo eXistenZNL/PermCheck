@@ -57,7 +57,7 @@ class Bag extends AbstractBag
     public function getMessages($type)
     {
         if (!array_key_exists($type, $this->messages)) {
-            return array();
+            return [];
         }
         return $this->messages[$type];
     }
