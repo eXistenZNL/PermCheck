@@ -1,12 +1,13 @@
 # PermCheck
 
 
-[![Travis branch](https://img.shields.io/travis/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://travis-ci.org/eXistenZNL/PermCheck) [![Scrutinizer branch](https://img.shields.io/scrutinizer/coverage/g/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Scrutinizer](https://img.shields.io/scrutinizer/g/eXistenZNL/PermCheck.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Packagist](https://img.shields.io/packagist/v/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck)  [![Packagist](https://img.shields.io/packagist/dm/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck/stats) [![Packagist](https://img.shields.io/packagist/l/existenznl/permcheck.svg?style=flat-square)](https://github.com/eXistenZNL/PermCheck/blob/master/LICENSE)
+
+[![CircleCI branch](https://img.shields.io/circleci/project/github/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://circleci.com/gh/eXistenZNL/workflows/PermCheck/tree/master) [![Scrutinizer branch](https://img.shields.io/scrutinizer/coverage/g/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Scrutinizer](https://img.shields.io/scrutinizer/g/eXistenZNL/PermCheck.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Packagist](https://img.shields.io/packagist/v/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck)  [![Packagist](https://img.shields.io/packagist/dm/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck/stats) [![Packagist](https://img.shields.io/packagist/l/existenznl/permcheck.svg?style=flat-square)](https://github.com/eXistenZNL/PermCheck/blob/master/LICENSE)
 
 ## About
 
 PermCheck is a little tool that checks if the files in a project have the executable bit set properly.
-It's available for PHP versions 5.3 and up, and is very light on dependencies, so you should be able to add it to nearly any project.
+It's available for PHP versions 5.6 and up (Version 1.0 goes back to PHP 5.3), and is very light on dependencies, so you should be able to add it to nearly any project.
 
 PermCheck aims to prevent inconsistent executable bits and thus random executable files in a project, which makes a project more consistent and more secure.
 
