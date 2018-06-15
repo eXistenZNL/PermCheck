@@ -1,0 +1,179 @@
+version: 2
+
+jobs:
+  php-56-symfony-lowest:
+    docker:
+      - image: existenz/builder:5.6
+    steps:
+      - checkout
+      - run: composer update --prefer-dist --prefer-lowest --optimize-autoloader
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-56-symfony-28:
+    docker:
+      - image: existenz/builder:5.6
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=2.8.*
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-56-symfony-3:
+    docker:
+      - image: existenz/builder:5.6
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=^3.0
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-70-symfony-lowest:
+    docker:
+      - image: existenz/builder:7.0
+    steps:
+      - checkout
+      - run: composer update --prefer-dist --prefer-lowest --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-70-symfony-28:
+    docker:
+      - image: existenz/builder:7.0
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=2.8.*
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-70-symfony-3:
+    docker:
+      - image: existenz/builder:7.0
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=^3.0
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-71-symfony-lowest:
+    docker:
+      - image: existenz/builder:7.1
+    steps:
+      - checkout
+      - run: composer update --prefer-dist --prefer-lowest --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-71-symfony-28:
+    docker:
+      - image: existenz/builder:7.1
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=2.8.*
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-71-symfony-3:
+    docker:
+      - image: existenz/builder:7.1
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=^3.0
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-71-symfony-4:
+    docker:
+      - image: existenz/builder:7.1
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=^4.0
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-72-symfony-lowest:
+    docker:
+      - image: existenz/builder:7.2
+    steps:
+      - checkout
+      - run: composer update --prefer-dist --prefer-lowest --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-72-symfony-28:
+    docker:
+      - image: existenz/builder:7.2
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=2.8.*
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-72-symfony-3:
+    docker:
+      - image: existenz/builder:7.2
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=^3.0
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+  php-72-symfony-4:
+    docker:
+      - image: existenz/builder:7.2
+    steps:
+      - checkout
+      - run: composer require --dev --no-update symfony/symfony=^4.0
+      - run: composer update --prefer-dist --optimize-autoloader
+      - run: sed -i '/Squiz.Commenting.FunctionComment[^T]/d' dev/phpcs/phpcs.xml
+      - run: vendor/bin/phpcs --standard=dev/phpcs/phpcs.xml src/
+      - run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - php-56-symfony-lowest
+      - php-56-symfony-28:
+          requires:
+            - php-56-symfony-lowest
+      - php-56-symfony-3:
+          requires:
+            - php-56-symfony-28
+
+      - php-70-symfony-lowest
+      - php-70-symfony-28:
+          requires:
+            - php-70-symfony-lowest
+      - php-70-symfony-3:
+          requires:
+            - php-70-symfony-28
+
+      - php-71-symfony-lowest
+      - php-71-symfony-28:
+          requires:
+            - php-71-symfony-lowest
+      - php-71-symfony-3:
+          requires:
+            - php-71-symfony-28
+      - php-71-symfony-4:
+          requires:
+            - php-71-symfony-3
+
+      - php-72-symfony-lowest
+      - php-72-symfony-28:
+          requires:
+            - php-72-symfony-lowest
+      - php-72-symfony-3:
+          requires:
+            - php-72-symfony-28
+      - php-72-symfony-4:
+          requires:
+            - php-72-symfony-3
