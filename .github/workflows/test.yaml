@@ -12,8 +12,15 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        php: [7.4, 8.0, 8.1]
-        symfony: [4.4, 5.4, 6.0, 6.1]
+        php: ["7.4", "8.0", "8.1"]
+        symfony: ["4.4", "5.4", "6.0", "6.1"]
+        exclude:
+          - php: "7.4"
+            symfony: "6.0"
+          - php: "7.4"
+            symfony: "6.1"
+          - php: "8.0"
+            symfony: "6.1"
     steps:
       - name: Checkout the codebase
         uses: actions/checkout@v2
@@ -21,8 +28,8 @@ jobs:
         uses: nanasess/setup-php@v3
         with:
           php-version: ${{ matrix.php }}
-      - name: Install dev dependencies
-        run: composer install --dev
+      - name: Install dependencies
+        run: composer update
       - name: Require Symfony ${{ matrix.symfony }}
         run: composer require --dev --no-update symfony/symfony=^${{ matrix.symfony }}
       - name: Run PHPUnit
