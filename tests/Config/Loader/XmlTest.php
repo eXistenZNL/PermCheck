@@ -3,21 +3,22 @@
 namespace eXistenZNL\PermCheck\Config\Loader;
 
 use eXistenZNL\PermCheck\Config\Config;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\Mock;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class XmlTest extends \PHPUnit_Framework_TestCase
+class XmlTest extends TestCase
 {
-    public function tearDown()
-    {
-        \Mockery::close();
-    }
+    use MockeryPHPUnitIntegration;
 
     /**
      * @dataProvider brokenXmlProvider
-     * @expectedException \RuntimeException
      */
     public function testIfLoadingABrokenXmlFails($data)
     {
+        $this->expectException(\RuntimeException::class);
+
         /** @var Config|MockInterface $config */
         $config = \Mockery::mock(new Config());
         $xml = new Xml(
@@ -39,6 +40,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             $data,
             $config
         );
+
+        $config->expects('addExecutableFile')->times(0);
+
         $xml->parse();
     }
 

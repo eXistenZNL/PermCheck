@@ -2,19 +2,24 @@
 
 namespace eXistenZNL\PermCheck\Config;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+
+class ConfigTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var Config;
      */
     protected $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new Config;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->config);
     }

@@ -1,0 +1,44 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+  schedule:
+    - cron: "0 1 * * *"
+
+jobs:
+  test_codebase:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        php: ["7.4", "8.0", "8.1"]
+        symfony: ["4.4", "5.4", "6.0", "6.1"]
+        exclude:
+          - php: "7.4"
+            symfony: "6.0"
+          - php: "7.4"
+            symfony: "6.1"
+          - php: "8.0"
+            symfony: "6.1"
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
+      - name: Install PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+      - name: Require Symfony ${{ matrix.symfony }}
+        run: composer require --no-update symfony/console=^${{ matrix.symfony }} symfony/dependency-injection=^${{ matrix.symfony }}
+      - name: Install dependencies
+        run: composer update
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=clover.xml
+      - name: Upload Scrutinizer coverage
+        uses: sudo-bot/action-scrutinizer@latest
+        if: github.repository == 'eXistenZNL/PermCheck'
+        with:
+          cli-args: "--format=php-clover clover.xml"

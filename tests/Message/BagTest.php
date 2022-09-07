@@ -2,8 +2,13 @@
 
 namespace eXistenZNL\PermCheck\Message;
 
-class BagTest extends \PHPUnit_Framework_TestCase
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+
+class BagTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var Bag
      */
@@ -12,7 +17,7 @@ class BagTest extends \PHPUnit_Framework_TestCase
     /**
      * PHPUnit setup
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->bag = new Bag();
     }
@@ -20,7 +25,7 @@ class BagTest extends \PHPUnit_Framework_TestCase
     /**
      * PHPUnit teardown
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->bag);
     }
@@ -61,10 +66,11 @@ class BagTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider crappyAddMessageArgumentsProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testIfStoringCrapWorks($message, $type)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->bag->addMessage($message, $type);
     }
 
