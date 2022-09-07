@@ -2,10 +2,13 @@
 
 namespace eXistenZNL\PermCheck\Message;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
 class BagTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var Bag
      */

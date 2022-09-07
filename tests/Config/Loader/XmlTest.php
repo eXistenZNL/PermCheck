@@ -4,6 +4,7 @@ namespace eXistenZNL\PermCheck\Config\Loader;
 
 use eXistenZNL\PermCheck\Config\Config;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\Mock;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -39,6 +40,9 @@ class XmlTest extends TestCase
             $data,
             $config
         );
+
+        $config->expects('addExecutableFile')->times(0);
+
         $xml->parse();
     }
 

@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checkout the codebase
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
       - name: Install PHP ${{ matrix.php }}
         uses: nanasess/setup-php@v3
         with:
@@ -33,4 +35,9 @@ jobs:
       - name: Require Symfony ${{ matrix.symfony }}
         run: composer require --dev --no-update symfony/symfony=^${{ matrix.symfony }}
       - name: Run PHPUnit
-        run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
+        run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=clover.xml
+      - name: Upload Scrutinizer coverage
+        uses: sudo-bot/action-scrutinizer@latest
+        if: github.repository == 'eXistenZNL/PermCheck'
+        with:
+          cli-args: clover.xml
