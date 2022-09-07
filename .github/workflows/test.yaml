@@ -1,0 +1,29 @@
+name: Test codebase
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+  schedule:
+    - cron: "0 1 * * *"
+
+jobs:
+  test_codebase:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        php: [7.4, 8.0, 8.1]
+        symfony: [4.4, 5.4, 6.0, 6.1]
+    steps:
+      - name: Checkout the codebase
+        uses: actions/checkout@v2
+      - name: Install PHP ${{ matrix.php }}
+        uses: nanasess/setup-php@v3
+        with:
+          php-version: ${{ matrix.php }}
+      - name: Install dev dependencies
+        run: composer install --dev
+      - name: Require Symfony ${{ matrix.symfony }}
+        run: composer require --dev --no-update symfony/symfony=^${{ matrix.symfony }}
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --config=dev/phpunit/phpunit.xml --coverage-clover=coverage.clover
