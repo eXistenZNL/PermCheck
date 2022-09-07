@@ -11,10 +11,14 @@ use eXistenZNL\PermCheck\Message\Bag;
 use eXistenZNL\PermCheck\Message\BagInterface;
 use eXistenZNL\PermCheck\Reporter\ReporterInterface;
 use eXistenZNL\PermCheck\Reporter\Xml as XmlReporter;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class PermCheckTest extends \PHPUnit_Framework_TestCase
+class PermCheckTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var PermCheck
      */
@@ -45,7 +49,7 @@ class PermCheckTest extends \PHPUnit_Framework_TestCase
      */
     protected $reporter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $data = <<< ENDXML
         <permcheck>
@@ -58,7 +62,7 @@ class PermCheckTest extends \PHPUnit_Framework_TestCase
                 <file>file3.sh</file>
             </executables>
         </permcheck>
-ENDXML;
+        ENDXML;
 
         $this->config = \Mockery::mock(new Config());
 
@@ -106,10 +110,9 @@ ENDXML;
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->permCheck = null;
-        \Mockery::close();
     }
 
     public function testRunningPermCheckGetsTheRightResults()

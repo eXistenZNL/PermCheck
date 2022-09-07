@@ -3,19 +3,18 @@
 namespace eXistenZNL\PermCheck\Filesystem;
 
 use eXistenZNL\PermCheck\Config\Config;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var FilesystemInterface
      */
     protected $filesystem;
-
-    public function tearDown()
-    {
-        \Mockery::close();
-    }
 
     public function testIfRetrievingTheFilesWorks()
     {
