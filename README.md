@@ -1,8 +1,6 @@
 # PermCheck
 
-
-
-[![CircleCI branch](https://img.shields.io/circleci/project/github/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://circleci.com/gh/eXistenZNL/workflows/PermCheck/tree/master) [![Scrutinizer branch](https://img.shields.io/scrutinizer/coverage/g/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Scrutinizer](https://img.shields.io/scrutinizer/g/eXistenZNL/PermCheck.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Packagist](https://img.shields.io/packagist/v/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck)  [![Packagist](https://img.shields.io/packagist/dm/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck/stats) [![Packagist](https://img.shields.io/packagist/l/existenznl/permcheck.svg?style=flat-square)](https://github.com/eXistenZNL/PermCheck/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/github/workflow/status/eXistenZNL/PermCheck/Tests?style=flat-square)](https://github.com/eXistenZNL/PermCheck/actions) [![Scrutinizer branch](https://img.shields.io/scrutinizer/coverage/g/eXistenZNL/PermCheck/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Scrutinizer](https://img.shields.io/scrutinizer/g/eXistenZNL/PermCheck.svg?style=flat-square)](https://scrutinizer-ci.com/g/eXistenZNL/PermCheck/) [![Packagist](https://img.shields.io/packagist/v/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck)  [![Packagist](https://img.shields.io/packagist/dm/existenznl/permcheck.svg?style=flat-square)](https://packagist.org/packages/existenznl/permcheck/stats) [![Packagist](https://img.shields.io/packagist/l/existenznl/permcheck.svg?style=flat-square)](https://github.com/eXistenZNL/PermCheck/blob/master/LICENSE)
 
 ## About
 
