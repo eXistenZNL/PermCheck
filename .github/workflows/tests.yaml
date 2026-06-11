@@ -23,7 +23,7 @@ jobs:
             symfony: "6.1"
     steps:
       - name: Checkout the codebase
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 10
       - name: Install PHP ${{ matrix.php }}
